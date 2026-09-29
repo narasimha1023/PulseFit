@@ -1,0 +1,3 @@
+com\pulsefit\auth\AuthServiceApplicationTests.class
+com\pulsefit\auth\security\JwtUtilsTest.class
+com\pulsefit\auth\service\AuthServiceTest.class

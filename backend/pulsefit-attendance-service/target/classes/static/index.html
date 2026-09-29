@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PulseFit - Attendance</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #07111f, #0d2438, #123b4a);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 1000px;
+    max-width: 95%;
+    min-height: 600px;
+    display: flex;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+}
+
+.left {
+    width: 40%;
+    padding: 55px 40px;
+    background: linear-gradient(160deg, #0b1d30, #0b3442);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #38e0b5;
+    margin-bottom: 15px;
+}
+
+.left h1 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.left p {
+    color: #b8c8d5;
+    line-height: 1.7;
+}
+
+.features {
+    margin-top: 30px;
+}
+
+.features div {
+    margin: 15px 0;
+    color: #dbe8ef;
+}
+
+.right {
+    width: 60%;
+    padding: 50px;
+    background: rgba(8,20,34,0.75);
+}
+
+.status {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 30px;
+    background: #123d2b;
+    color: #4ade80;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #9fb0bd;
+    margin-bottom: 30px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.card {
+    padding: 25px;
+    background: #162a3e;
+    border: 1px solid #30485f;
+    border-radius: 15px;
+}
+
+.card h3 {
+    color: #38e0b5;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #c8d4dd;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 10px;
+    background: #38e0b5;
+    color: #06131f;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.footer {
+    margin-top: 25px;
+    text-align: center;
+    color: #738797;
+    font-size: 12px;
+}
+
+@media(max-width:700px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+
+        <div class="logo">PULSEFIT</div>
+
+        <h1>Attendance Management</h1>
+
+        <p>
+            Track gym member attendance,
+            check-in and check-out activities
+            through the PulseFit platform.
+        </p>
+
+        <div class="features">
+            <div>✓ Member Check-In</div>
+            <div>✓ Member Check-Out</div>
+            <div>✓ Attendance History</div>
+            <div>✓ Attendance Records</div>
+        </div>
+
+    </div>
+
+
+    <div class="right">
+
+        <div class="status">
+            ● ATTENDANCE SERVICE RUNNING
+        </div>
+
+        <h2>Attendance Service</h2>
+
+        <p class="subtitle">
+            PulseFit attendance management module
+        </p>
+
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Check-In</h3>
+                <p>
+                    Record when a member enters
+                    the health club.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Check-Out</h3>
+                <p>
+                    Record when a member leaves
+                    the health club.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Attendance History</h3>
+                <p>
+                    Maintain member attendance
+                    records and activity history.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Database</h3>
+                <p>
+                    Attendance information is stored
+                    in the MySQL attendance database.
+                </p>
+            </div>
+
+        </div>
+
+
+        <button class="btn" onclick="checkService()">
+            CHECK ATTENDANCE SERVICE
+        </button>
+
+
+        <div class="footer">
+            PulseFit Health Club Management System
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function checkService() {
+
+    alert(
+        "Attendance Service is running successfully on port 8083."
+    );
+
+}
+
+</script>
+
+</body>
+</html>

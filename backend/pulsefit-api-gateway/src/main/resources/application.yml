@@ -1,0 +1,88 @@
+# ===================================================================
+# PulseFit Health Clubs (PS023) - API Gateway Configuration
+# ===================================================================
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pulsefit-api-gateway
+
+  cloud:
+    gateway:
+      # Global Cross-Origin Resource Sharing (CORS) Configuration
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+            allowedMethods:
+              - "GET"
+              - "POST"
+              - "PUT"
+              - "DELETE"
+              - "OPTIONS"
+            allowedHeaders:
+              - "Authorization"
+              - "Content-Type"
+            allowCredentials: true
+
+      # Service Discovery Load-Balanced Routing Rules
+      routes:
+        # 1. Auth Service Route (Public)
+        - id: auth-service
+          uri: lb://pulsefit-auth-service
+          predicates:
+            - Path=/auth/**
+
+        # 2. Member Service Route (Protected by JWT)
+        - id: member-service
+          uri: lb://pulsefit-member-service
+          predicates:
+            - Path=/members/**
+          filters:
+            - AuthenticationFilter
+
+        # 3. Subscription Plans Route (Protected by JWT)
+        - id: subscription-service-plans
+          uri: lb://pulsefit-subscription-service
+          predicates:
+            - Path=/plans/**
+          filters:
+            - AuthenticationFilter
+
+        # 4. Member Subscriptions Route (Protected by JWT)
+        - id: subscription-service-subs
+          uri: lb://pulsefit-subscription-service
+          predicates:
+            - Path=/subscriptions/**
+          filters:
+            - AuthenticationFilter
+
+        # 5. Attendance Service Route (Protected by JWT)
+        - id: attendance-service
+          uri: lb://pulsefit-attendance-service
+          predicates:
+            - Path=/attendance/**
+          filters:
+            - AuthenticationFilter
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+# JWT Secret Configuration
+pulsefit:
+  jwt:
+    secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
+
+# Logging
+logging:
+  level:
+    com.pulsefit.gateway: DEBUG
+    org.springframework.cloud.gateway: INFO

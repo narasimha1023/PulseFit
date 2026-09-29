@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PulseFit - Authentication</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #07111f,
+                    #0b2430,
+                    #07111f
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            min-height: 620px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: rgba(255, 255, 255, 0.07);
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            border-radius: 25px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,0.45);
+        }
+
+        .left {
+            padding: 60px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 184, 166, 0.20),
+                    rgba(7, 17, 31, 0.85)
+                );
+        }
+
+        .logo {
+            font-size: 42px;
+            font-weight: 800;
+
+            color: #19d3c5;
+
+            margin-bottom: 20px;
+        }
+
+        .left h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .left p {
+            font-size: 17px;
+            line-height: 1.7;
+
+            color: #c7d5dc;
+
+            max-width: 450px;
+        }
+
+        .features {
+            margin-top: 35px;
+        }
+
+        .feature {
+            margin-bottom: 18px;
+
+            color: #dce8ed;
+
+            font-size: 15px;
+        }
+
+        .feature span {
+            color: #19d3c5;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .right {
+            padding: 45px;
+
+            background: rgba(255,255,255,0.97);
+
+            color: #15212b;
+        }
+
+        .tabs {
+            display: flex;
+
+            margin-bottom: 30px;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+
+            padding: 15px;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            color: #777;
+        }
+
+        .tab.active {
+            color: #0e9f93;
+
+            border-bottom: 3px solid #0e9f93;
+        }
+
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        .form h2 {
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+
+            margin-bottom: 25px;
+
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: 600;
+
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d5dbe0;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #13b8aa;
+
+            box-shadow:
+                0 0 0 3px rgba(19,184,170,0.12);
+        }
+
+        .btn {
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 8px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #12b8aa,
+                    #087f78
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(18,184,170,0.25);
+        }
+
+        .message {
+            display: none;
+
+            padding: 12px;
+
+            margin-bottom: 18px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+
+            background: #dff7ed;
+
+            color: #08744e;
+        }
+
+        .message.error {
+            display: block;
+
+            background: #ffe4e4;
+
+            color: #b42318;
+        }
+
+        .info {
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+
+            .container {
+                grid-template-columns: 1fr;
+
+                max-width: 500px;
+            }
+
+            .left {
+                display: none;
+            }
+
+            .right {
+                padding: 35px 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="left">
+
+        <div class="logo">
+            PULSEFIT
+        </div>
+
+        <h1>
+            Health Club<br>
+            Management<br>
+            System
+        </h1>
+
+        <p>
+            Manage your fitness journey, memberships,
+            attendance and health club activities
+            through one centralized platform.
+        </p>
+
+        <div class="features">
+
+            <div class="feature">
+                <span>✓</span>
+                Secure user authentication
+            </div>
+
+            <div class="feature">
+                <span>✓</span>
+                Membership management
+            </div>
+
+            <div class="feature">
+                <span>✓</span>
+                Attendance tracking
+            </div>
+
+            <div class="feature">
+                <span>✓</span>
+                Subscription management
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="right">
+
+
+        <!-- TABS -->
+
+        <div class="tabs">
+
+            <button
+                class="tab active"
+                id="loginTab"
+                onclick="showLogin()">
+
+                Login
+
+            </button>
+
+            <button
+                class="tab"
+                id="registerTab"
+                onclick="showRegister()">
+
+                Register
+
+            </button>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div
+            id="loginForm"
+            class="form active">
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p class="subtitle">
+                Login to your PulseFit account
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="loginUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn"
+                onclick="login()">
+
+                Login
+
+            </button>
+
+        </div>
+
+
+        <!-- REGISTER -->
+
+        <div
+            id="registerForm"
+            class="form">
+
+            <h2>
+                Create Account
+            </h2>
+
+            <p class="subtitle">
+                Register for your PulseFit account
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="registerUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="registerUsername"
+                    placeholder="Enter username"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="registerEmail">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="Enter email"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="registerPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Minimum 6 characters"
+                    required>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn"
+                onclick="registerUser()">
+
+                Create Account
+
+            </button>
+
+        </div>
+
+
+        <div class="info">
+            PulseFit • Secure Authentication
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+    // ============================
+    // SHOW LOGIN
+    // ============================
+
+    function showLogin() {
+
+        document
+            .getElementById("loginForm")
+            .classList.add("active");
+
+        document
+            .getElementById("registerForm")
+            .classList.remove("active");
+
+        document
+            .getElementById("loginTab")
+            .classList.add("active");
+
+        document
+            .getElementById("registerTab")
+            .classList.remove("active");
+
+        clearMessage();
+    }
+
+
+    // ============================
+    // SHOW REGISTER
+    // ============================
+
+    function showRegister() {
+
+        document
+            .getElementById("registerForm")
+            .classList.add("active");
+
+        document
+            .getElementById("loginForm")
+            .classList.remove("active");
+
+        document
+            .getElementById("registerTab")
+            .classList.add("active");
+
+        document
+            .getElementById("loginTab")
+            .classList.remove("active");
+
+        clearMessage();
+    }
+
+
+    // ============================
+    // SHOW MESSAGE
+    // ============================
+
+    function showMessage(message, type) {
+
+        const messageBox =
+            document.getElementById("message");
+
+        messageBox.textContent = message;
+
+        messageBox.className =
+            "message " + type;
+
+        messageBox.style.display = "block";
+    }
+
+
+    // ============================
+    // CLEAR MESSAGE
+    // ============================
+
+    function clearMessage() {
+
+        const messageBox =
+            document.getElementById("message");
+
+        messageBox.textContent = "";
+
+        messageBox.className = "message";
+
+        messageBox.style.display = "none";
+    }
+
+
+    // ============================
+    // REGISTER
+    // ============================
+
+    async function registerUser() {
+
+        const username =
+            document
+                .getElementById("registerUsername")
+                .value
+                .trim();
+
+        const email =
+            document
+                .getElementById("registerEmail")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("registerPassword")
+                .value;
+
+
+        if (!username || !email || !password) {
+
+            showMessage(
+                "Please fill all fields.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (password.length < 6) {
+
+            showMessage(
+                "Password must be at least 6 characters.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/auth/register",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            username: username,
+
+                            email: email,
+
+                            password: password,
+
+                            role: "USER"
+
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Register Response:",
+                data
+            );
+
+
+            if (response.ok) {
+
+                showMessage(
+                    "Registration successful! You can now login.",
+                    "success"
+                );
+
+
+                document
+                    .getElementById(
+                        "registerUsername"
+                    )
+                    .value = "";
+
+                document
+                    .getElementById(
+                        "registerEmail"
+                    )
+                    .value = "";
+
+                document
+                    .getElementById(
+                        "registerPassword"
+                    )
+                    .value = "";
+
+
+                setTimeout(
+                    function () {
+
+                        showLogin();
+
+                    },
+                    1500
+                );
+
+            } else {
+
+                showMessage(
+                    data.message ||
+                    data.error ||
+                    "Registration failed.",
+                    "error"
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Register Error:",
+                error
+            );
+
+            showMessage(
+                "Unable to connect to Auth Service.",
+                "error"
+            );
+        }
+    }
+
+
+    // ============================
+    // LOGIN
+    // ============================
+
+    async function login() {
+
+        const username =
+            document
+                .getElementById("loginUsername")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("loginPassword")
+                .value;
+
+
+        if (!username || !password) {
+
+            showMessage(
+                "Please enter username and password.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/auth/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            username: username,
+
+                            password: password
+
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Login Response:",
+                data
+            );
+
+
+            // ============================
+            // LOGIN SUCCESS
+            // ============================
+
+            if (response.ok) {
+
+                showMessage(
+                    "Login successful! Opening PulseFit...",
+                    "success"
+                );
+
+
+                // Save JWT token
+
+                if (data.token) {
+
+                    localStorage.setItem(
+                        "pulsefit_token",
+                        data.token
+                    );
+
+                }
+
+
+                // Save username
+
+                if (data.username) {
+
+                    localStorage.setItem(
+                        "pulsefit_username",
+                        data.username
+                    );
+
+                }
+
+
+                // Save role
+
+                if (data.role) {
+
+                    localStorage.setItem(
+                        "pulsefit_role",
+                        data.role
+                    );
+
+                }
+
+
+                console.log(
+                    "Login successful"
+                );
+
+                console.log(
+                    "JWT Token:",
+                    data.token
+                );
+
+
+                // ============================
+                // REDIRECT TO PULSEFIT
+                // ============================
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "http://localhost:8080/dashboard";
+
+                    },
+                    1000
+                );
+
+
+            } else {
+
+
+                // ============================
+                // LOGIN FAILED
+                // ============================
+
+                showMessage(
+
+                    data.message ||
+                    data.error ||
+                    "Invalid username or password.",
+
+                    "error"
+
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Login Error:",
+                error
+            );
+
+            showMessage(
+                "Unable to connect to Auth Service.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    // ============================
+    // ENTER KEY - LOGIN
+    // ============================
+
+    document
+        .getElementById("loginPassword")
+        .addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    login();
+
+                }
+
+            }
+        );
+
+
+    // ============================
+    // ENTER KEY - REGISTER
+    // ============================
+
+    document
+        .getElementById("registerPassword")
+        .addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    registerUser();
+
+                }
+
+            }
+        );
+
+
+</script>
+
+</body>
+
+</html>
